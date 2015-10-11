@@ -7,7 +7,7 @@ defmodule Passport.RegistrationManager do
     |> downcase_email
     |> set_hashed_password
     |> Changeset.validate_change(:email, &presence_validator/2)
-    |> Changeset.validate_unique(:email, on: repo)
+    |> Changeset.unique_constraint(:email, on: repo)
 
     case changeset.valid? do
       true ->
