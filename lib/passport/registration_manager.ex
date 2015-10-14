@@ -17,15 +17,15 @@ defmodule Passport.RegistrationManager do
   #       {:error, changeset}
   #   end
   # end
-  
+
   def register(conn, params) do
     changeset = user_model.changeset(user_model.__struct__, params)
 
     changeset = changeset
-      |> validate_format(:email, ~r/@/)
-      |> update_change(:email, &String.downcase/1)
+      |> Changeset.validate_format(:email, ~r/@/)
+      |> Changeset.update_change(:email, &String.downcase/1)
       |> set_hashed_password
-      |> unique_constraint(:email)
+      |> Chageset.unique_constraint(:email)
 
     repo.insert(changeset)
     Passport.SessionManager.login(conn, params)
