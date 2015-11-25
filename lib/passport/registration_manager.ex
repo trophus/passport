@@ -25,7 +25,7 @@ defmodule Passport.RegistrationManager do
       |> Changeset.validate_format(:email, ~r/@/)
       |> Changeset.update_change(:email, &String.downcase/1)
       |> set_hashed_password
-      |> Chageset.unique_constraint(:email)
+      |> Changeset.unique_constraint(:email)
 
     repo.insert(changeset)
     Passport.SessionManager.login(conn, params)
