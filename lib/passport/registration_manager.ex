@@ -29,7 +29,13 @@ defmodule Passport.RegistrationManager do
       |> Changeset.unique_constraint(:email)
 
     repo.insert(changeset)
-    # Passport.SessionManager.login(conn, params)
+    case changeset.valid? do
+      true ->
+        repo.insert(changeset)
+        {:ok}
+      _ ->
+        {:error, changeset}
+    end
   end
 
   def set_hashed_password(changeset = %{params: %{"password" => password}}) when password != "" and password != nil do
